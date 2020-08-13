@@ -95,6 +95,11 @@ class Cache
             return false;
         }
 
+        // Don't cache staged pages
+        if ($request->getVar('stage')) {
+            return false;
+        }
+
         // Don't cache empty responses
         if (empty($response->getBody())) {
             return false;
