@@ -1,0 +1,17 @@
+# Register the caching extension against the SiteTree
+SilverStripe\CMS\Model\SiteTree:
+  extensions:
+    Impetuous: AdrHumphreys\Impetuous\SiteTreeExtension
+
+# Register the middleware, this should happen after all other middleware is registered to ensure
+# the whole response is encapsulated
+---
+Name: impetuous_requestprocessors
+After:
+  - requestprocessors
+---
+SilverStripe\Core\Injector\Injector:
+  SilverStripe\Control\Director:
+    properties:
+      Middlewares:
+        ImpetuousCacheMiddleware: %$AdrHumphreys\Impetuous\CacheResponse
