@@ -39,13 +39,21 @@ class Cache
      */
     public static function getStoragePath(): string
     {
+        $path = self::DEFAULT_CACHE_DIR;
+
         // Hard to trust users will set this correctly sometimes
         $setPath = Environment::getEnv(self::IMPETUOUS_CACHE_DIR);
         if ($setPath !== null && $setPath !== '' && $setPath !== false) {
-            return $setPath;
+            $path = $setPath;
         }
-        
-        return self::DEFAULT_CACHE_DIR;
+
+        // When in CLI mode the path gets changed from /public to / so
+        // we need to account for that
+        if (Director::is_cli()) {
+            $path = PUBLIC_DIR . DIRECTORY_SEPARATOR . $path;
+        }
+
+        return $path;
     }
 
     /*

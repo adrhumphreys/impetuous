@@ -20,6 +20,11 @@ class SiteTreeExtension extends DataExtension
      */
     public function onBeforePublish(SiteTree $original): void
     {
+        // The orginal doesn't always exist
+        if ($original === null) {
+            return;    
+        }
+
         $this->clearURLs($original);
     }
 
